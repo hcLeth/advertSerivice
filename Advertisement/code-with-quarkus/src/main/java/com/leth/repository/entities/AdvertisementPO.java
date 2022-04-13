@@ -47,8 +47,8 @@ public class AdvertisementPO {
                            HeaderText headerText, BodyText bodyText,
                            Price price, PhoneNumber phoneNumber,
                            ImageUrl imageUrl){
-    this.category = category.name();
-    this.type = type.name();
+    this.category = category.toString();
+    this.type = type.toString();
     this.headerText = headerText.getValue();
     this.bodyText = bodyText.getValue();
     this.price = price.getValue();

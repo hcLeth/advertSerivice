@@ -1,10 +1,7 @@
 package com.leth.resource.dto;
 
-import com.fasterxml.jackson.annotation.JsonKey;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.leth.domain.*;
 import com.leth.service.request.CreateAdRequest;
-import io.vertx.core.json.Json;
 
 public class AdvertisementDTO {
     private final String id;
@@ -16,17 +13,16 @@ public class AdvertisementDTO {
     private final String phoneNumber;
     private final String imageUrl;
 
-    public AdvertisementDTO(Advertisement advertisement){
-        this.id = advertisement.getId().getRaw();
-        this.category = advertisement.getCategory().name();
-        this.type = advertisement.getType().name();
-        this.headerText = advertisement.getHeaderText().getValue();
-        this.bodyText = advertisement.getBodyText().getValue();
-        this.price = advertisement.getPrice().getValue();
-        this.phoneNumber = advertisement.getPhoneNumber().getValue();
-        this.imageUrl = advertisement.getImageUrl().getValue();
-    }
 
-    public CreateAdRequest toRequest(){return new CreateAdRequest(id, category, type, headerText, bodyText, price,
-            phoneNumber, imageUrl);}
+    public AdvertisementDTO(Id id, Category category, Type type, HeaderText headerText, BodyText bodyText,
+                            Price price, PhoneNumber phoneNumber, ImageUrl imageUrl){
+        this.id = id.getRaw();
+        this.category = category.toString();
+        this.type = type.toString();
+        this.headerText = headerText.getValue();
+        this.bodyText = bodyText.getValue();
+        this.price = price.getValue();
+        this.phoneNumber = phoneNumber.getValue();
+        this.imageUrl = imageUrl.getValue();
+    }
 }

@@ -2,6 +2,7 @@ package com.leth.repository;
 
 import com.leth.domain.*;
 import com.leth.repository.entities.AdvertisementPO;
+import org.jboss.logging.Logger;
 
 import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
@@ -16,6 +17,8 @@ public class Repository {
 
     @Inject
     public Repository(EntityManager entityManager){this.entityManager =entityManager;}
+    @Inject
+    Logger log;
 
     public PhoneNumber createAdvertisement(Category category, Type type,
                                            HeaderText headerText, BodyText bodyText,
@@ -23,6 +26,7 @@ public class Repository {
                                            ImageUrl imageUrl){
         AdvertisementPO advertisementPO = new AdvertisementPO(category, type, headerText, bodyText, price, phoneNumber, imageUrl);
         entityManager.persist(advertisementPO);
+        log.info(advertisementPO);
         return new PhoneNumber(advertisementPO.getPhoneNumber());
     }
 
@@ -30,7 +34,9 @@ public class Repository {
         try{
             List<AdvertisementPO> advertisementPOList = entityManager.createQuery(
                     "SELECT a FROM AdvertisementPO a", AdvertisementPO.class).getResultList();
-            return advertisementPOList.stream().map(AdvertisementPO::toAdvertisement).toList();
+            List<Advertisement> adList = advertisementPOList.stream().map(AdvertisementPO::toAdvertisement).toList();
+            log.info(adList);
+            return adList;
         }catch (NoResultException e){
             return null;
         }

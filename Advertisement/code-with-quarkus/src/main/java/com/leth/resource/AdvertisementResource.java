@@ -4,7 +4,9 @@ import com.leth.domain.Advertisement;
 import com.leth.domain.PhoneNumber;
 import com.leth.integration.advertisementService.AdvertisementService;
 import com.leth.resource.dto.AdvertisementDTO;
+import com.leth.resource.dto.CreateAdDTO;
 import com.leth.service.request.CreateAdRequest;
+import org.jboss.logging.Logger;
 
 import javax.annotation.security.PermitAll;
 import javax.inject.Inject;
@@ -24,11 +26,14 @@ public class AdvertisementResource {
     public  AdvertisementResource(AdvertisementService advertisementService){
         this.advertisementService = advertisementService;
     }
-    @Path("/createAd")
+    @Inject
+    Logger log;
+
+    @Path("/createad")
     @POST
     @PermitAll
     @Produces(MediaType.APPLICATION_JSON)
-    public PhoneNumber createAd(AdvertisementDTO advertisement){
+    public PhoneNumber createAd(CreateAdDTO advertisement){
         return new PhoneNumber(advertisementService.createAd(advertisement.toRequest()).getPhoneNumber().getValue());
     }
 
@@ -36,8 +41,9 @@ public class AdvertisementResource {
     @GET
     @PermitAll
     @Produces(MediaType.APPLICATION_JSON)
-    public List<AdvertisementDTO> showAds(){
+    public List<Advertisement> showAds(){
         List<Advertisement> advertisementList = advertisementService.getAll();
-        return advertisementList.stream().map(Advertisement::toDTO).toList();
+
+        return advertisementList;
     }
 }

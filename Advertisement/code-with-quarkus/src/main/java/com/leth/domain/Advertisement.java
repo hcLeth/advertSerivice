@@ -60,6 +60,7 @@ public class Advertisement {
     }
 
     public AdvertisementDTO toDTO(){
-        return new AdvertisementDTO(this);
+        return new AdvertisementDTO(this.id, this.category, this.type, this.headerText, this.bodyText,
+                this.price, this.phoneNumber, this.imageUrl);
     }
 }
